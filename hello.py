@@ -1,2 +1,3 @@
 print("Hello Git")
-prrint("New to Git")
+print("New to Git")
+print(5)
