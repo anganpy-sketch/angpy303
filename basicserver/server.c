@@ -47,6 +47,13 @@ int main()
     }
     printf("Connected sucessfully !! \n");
 
+char buffer[512];
+int bytes_recived= recv(client_fd,buffer,sizeof(buffer)-1,0);
+printf("Msg from client : %s",buffer);
+printf("\n bytes arrived = %d",bytes_recived);
+
+
+
     close(client_fd);
     close(server_fd);
 

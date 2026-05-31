@@ -35,6 +35,15 @@ int main()
 
     printf("Connected to server!\n");
 
+    char msg[] = "Hello guys !! ";
+
+int bytessend=send(client_fd,
+     msg,
+     strlen(msg) + 1,
+     0);
+
+printf("bytes send is %d",bytessend);
+
     close(client_fd);
 
     return 0;
