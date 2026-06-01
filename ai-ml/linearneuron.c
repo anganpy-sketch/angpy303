@@ -7,11 +7,19 @@ double w, b;
 void errorpredictionfunction(double *ptr, double *ptr1, double *ptr2, double *ptr3, int n)
 {
 
-    for (int i = 0; i < (n); i++)
-    {
-        ptr2[i] = w * ptr[i] + b;
-        ptr3[i] = (((ptr1[i] - ptr2[i]) / ptr1[i]) * 100);
-    }
+    for (int i = 0; i < n; i++)
+{
+    ptr2[i] = w * ptr[i] + b;
+
+    double error = ptr1[i] - ptr2[i];
+
+    ptr3[i] = fabs((error / ptr1[i]) * 100);
+
+    w = w + 0.01 * error;
+    b = b + 0.01 * error;
+    printf("w = %.3f b = %.3f\n", w, b);
+
+}
 
     printf("prediction_array : ");
     for (int i = 0; i < (n); i++)
@@ -28,18 +36,6 @@ void errorpredictionfunction(double *ptr, double *ptr1, double *ptr2, double *pt
     }
     printf("\n");
 
-    double dW = 0.0;
-    double dB = 0.0;
-    for (int i = 0; i < n; i++)
-    {
-        double error = ptr2[i] - ptr1[i];
-        dW += error * ptr[i];
-        dB += error;
-    }
-
-    double learning_rate = 0.0005;
-    w -= (2.0 / n) * learning_rate * dW;
-    b -= (2.0 / n) * learning_rate * dB;
 }
 
 int main()
@@ -47,7 +43,7 @@ int main()
     double array[] = {2, 4, 6, 8, 10};
     double answer[] = {5, 9, 13, 17, 21};
     double prediction[5] = {0, 0, 0, 0, 0};
-    double errorpercentage[5] = {1, 1, 1, 1, 1};
+    double errorpercentage[5] = {100, 100, 100, 100, 100};
     int n = sizeof(array) / sizeof(double);
 
     printf("enter your w and b for testing followed by a space :\n ");
@@ -68,14 +64,14 @@ int main()
     }
     printf("\n");
 
-    for (int i = 1; i < 3000; i++)
+    for (int i = 1; i < 1000; i++)
     {
         errorpredictionfunction(array, answer, prediction, errorpercentage, n);
 
         int all_zero = 1;
         for (int j = 0; j < n; j++)
         {
-            if (errorpercentage[j] != 0.0)
+            if (errorpercentage[j] !=0.0)
             {
                 all_zero = 0;
                 break;
