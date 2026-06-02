@@ -47,12 +47,24 @@ int main()
     }
     printf("Connected sucessfully !! \n");
 
-char buffer[512];
-int bytes_recived= recv(client_fd,buffer,sizeof(buffer)-1,0);
-printf("Msg from client : %s",buffer);
-printf("\n bytes arrived = %d",bytes_recived);
+    char buffer[1024];
+    
+while (1) {
+    int bytes_received = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
 
+    if (bytes_received < 0) {
+        perror("recv");
+        break;
+    }
 
+    if (bytes_received == 0) {
+        printf("Client disconnected\n");
+        break;
+    }
+
+    buffer[bytes_received] = '\0';
+    printf("Client: %s\n", buffer);
+}
 
     close(client_fd);
     close(server_fd);

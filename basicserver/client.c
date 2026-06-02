@@ -35,16 +35,24 @@ int main()
 
     printf("Connected to server!\n");
 
-    char msg[] = "Hello guys !! ";
+    while (1)
+    {
+        char msg[1024];
+        printf("you : ");
+        fgets(msg, sizeof(msg), stdin);
+        msg[strcspn(msg, "\n")] = '\0';
+        if ((strcmp(msg, "exit")) == 0)
+        {
+            break;
+        }
+        int bytes_send = send(client_fd, msg, strlen(msg), 0);
+      if (bytes_send < 0)
+    {
+        perror("send");
+        break;
+    }
 
-int bytessend=send(client_fd,
-     msg,
-     strlen(msg) + 1,
-     0);
-
-printf("bytes send is %d",bytessend);
-
+        printf("bytes send is %d.\n", bytes_send);
+    }
     close(client_fd);
-
-    return 0;
 }
