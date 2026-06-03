@@ -15,7 +15,7 @@ void errorpredictionfunction(double *ptr, double *ptr1, double *ptr2, double *pt
 
     ptr3[i] = fabs((error / ptr1[i]) * 100);
 
-    w = w + 0.01 * error;
+    w = w + 0.01 * error * ptr[i];
     b = b + 0.01 * error;
     printf("w = %.3f b = %.3f\n", w, b);
 
