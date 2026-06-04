@@ -35,6 +35,8 @@ int main()
 
     printf("Connected to server!\n");
 
+    char buffer[1024];
+
     while (1)
     {
         char msg[1024];
@@ -53,6 +55,27 @@ int main()
     }
 
         printf("bytes send is %d.\n", bytes_send);
+
+
+ int bytes_received = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
+
+    if (bytes_received < 0) {
+        perror("recv");
+        break;
     }
+
+    if (bytes_received == 0) {
+        printf("Client disconnected\n");
+        break;
+    }
+    buffer[bytes_received] = '\0';
+    printf("Server: %s\n", buffer);
+    
+    }
+
+
+
+
+
     close(client_fd);
 }

@@ -64,7 +64,27 @@ while (1) {
 
     buffer[bytes_received] = '\0';
     printf("Client: %s\n", buffer);
-}
+
+char serverreply[1024];
+  printf("you : ");
+        fgets(serverreply, sizeof(serverreply), stdin);
+        serverreply[strcspn(serverreply, "\n")] = '\0';
+        if ((strcmp(serverreply, "exit")) == 0)
+        {
+            break;
+        }
+   int bytes_send = send(client_fd, serverreply, strlen(serverreply), 0);
+      if (bytes_send < 0)
+    {
+        perror("send");
+        break;
+    }
+
+        printf("bytes send is %d.\n", bytes_send);
+    }
+
+
+
 
     close(client_fd);
     close(server_fd);
