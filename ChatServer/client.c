@@ -48,34 +48,30 @@ int main()
             break;
         }
         int bytes_send = send(client_fd, msg, strlen(msg), 0);
-      if (bytes_send < 0)
-    {
-        perror("send");
-        break;
-    }
+        if (bytes_send < 0)
+        {
+            perror("send");
+            break;
+        }
 
         printf("bytes send is %d.\n", bytes_send);
 
+        int bytes_received = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
 
- int bytes_received = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
+        if (bytes_received < 0)
+        {
+            perror("recv");
+            break;
+        }
 
-    if (bytes_received < 0) {
-        perror("recv");
-        break;
+        if (bytes_received == 0)
+        {
+            printf("Client disconnected\n");
+            break;
+        }
+        buffer[bytes_received] = '\0';
+        printf("Server: %s\n", buffer);
     }
-
-    if (bytes_received == 0) {
-        printf("Client disconnected\n");
-        break;
-    }
-    buffer[bytes_received] = '\0';
-    printf("Server: %s\n", buffer);
-    
-    }
-
-
-
-
 
     close(client_fd);
 }
